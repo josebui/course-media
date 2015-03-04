@@ -1,0 +1,10 @@
+name = Course media
+description = Supports media as course objects.
+package = Course objects
+core = 7.x
+dependencies[] = media
+dependencies[] = course
+
+
+files[] = course_media.classes.inc
+files[] = course_media.test

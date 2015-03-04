@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * Implements hook_course_handlers().
+ */
+function course_media_course_handlers() {
+  return array(
+    'object' => array(
+      'media' => array(
+        'name' => t('Media'),
+        'class' => 'CourseObjectMedia',
+        'description' => t('A Media course object.'),
+      ),
+    ),
+  );
+}
+
+
+function course_media_help($path, $arg) {
+  switch ($path) {
+    // Main module help for the block module
+    case 'admin/help#course_media':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Course Media module provides functionality from the <a href="@media_faq">Media Module</a> to the <a href="@course_faq">Course Module</a>. It lets the user create a course object capable of attaching media.', array('@media_faq' => 'http://drupal.org/project/media','@course_faq'=>'https://www.drupal.org/project/course')) . '</p>';
+      $output .= '<h3>'.t('Related modules').'</h3>';
+      $output .= '<ul><li>'.t('<a href="@media_faq">Media Module</a>', array('@media_faq' => 'http://drupal.org/project/media')).'</li>';
+      $output .= '<li>'.t('<a href="@course_faq">Course Module</a>', array('@course_faq'=>'https://www.drupal.org/project/course')).'</li></ul>';
+      return $output;
+  }
+}

@@ -1,0 +1,65 @@
+<?php
+
+require_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'course') . '/tests/CourseTestCase.test';
+
+/**
+ * Tests for media Course objects.
+ */
+class CourseObjectMediaTestCase extends CourseTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Course object media',
+      'description' => 'Ensure that Media Course object support functions properly.',
+      'group' => 'Course',
+    );
+  }
+
+  function getModules() {
+    $modules = parent::getModules();
+    $modules[] = 'media';
+    $modules[] = 'course_media';
+    return $modules;
+  }
+
+  function setUp() {
+    parent::setUp();
+
+    $this->media_admin = $this->drupalCreateUser(array('view media'));
+  }
+
+  function testMediaCourseObject() {
+    $this->drupalLogin($this->media_admin);
+
+    // Create a course with 1 media.
+    $courseNode = $this->createCourseNode();
+    $co1 = course_get_course_object('course_media', 'media');
+    $co1->setCourse($courseNode->nid);
+
+    // Create a file.
+    $files = $this->drupalGetTestFiles('image');
+    $file = file_save(file_uri_to_object($files[0]->uri));
+    $fid = $file->fid;
+
+    // Set file in media object
+    $co1->setOption('media', array('fid'=>$fid));
+    $co1->save();
+    
+    // Check if file exists in Course object
+    $options = $co1->getOptions();
+    $file = file_load($options['media']['fid']);
+    $this->assertTrue($file->type == 'image', 'Media created on course object save.');
+
+    // Check no fulfillment
+    $this->assertTrue(!$co1->getFulfillment()->isComplete(), 'Media course is not completed.');
+
+    // Take media.
+    $co1->take();
+
+    // Check fulfillment
+    $this->assertTrue($co1->getFulfillment()->isComplete(), 'Check that media fulfillment is complete.');
+
+    // Delete test file
+    $deleted = file_delete($file);
+  }
+}
