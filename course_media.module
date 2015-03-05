@@ -16,6 +16,9 @@ function course_media_course_handlers() {
 }
 
 
+/**
+ * Implements hook_help().
+ */
 function course_media_help($path, $arg) {
   switch ($path) {
     // Main module help for the block module

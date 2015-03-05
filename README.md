@@ -4,16 +4,16 @@
  *  README for the Course Media Module.
  */
 
-About
+##About
 
 	The Course Media module provides functionality from the Media Module to the Course Module. It lets the user create a course object capable of attaching media.
 
-Related modules
+##Related modules
 
 	Media Module (https://www.drupal.org/project/media)
 	Course Module (https://www.drupal.org/project/course)
 
-Example
+##Example
 
 	To see a working example go to: http://dev-course-media.pantheon.io/
 
